@@ -96,6 +96,11 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0d0d0d;height:10
 .vsec.vopen{display:block}
 .vsec-title{font-size:14px;font-weight:500;color:#111;margin-bottom:.75rem;padding-bottom:.5rem;border-bottom:0.5px solid #e5e5e5}
 
+.router-card{transition:all .2s ease;border:1px solid #e5e5e5!important}
+.router-card:hover{border-color:#39D353!important;color:#1a7a32!important;background:#f9fff9!important;transform:translateY(-2px);box-shadow:0 3px 10px #39D35322}
+@keyframes hint-pulse{0%,100%{border-color:#e5e5e5;box-shadow:none}50%{border-color:#39D35366;box-shadow:0 0 0 3px #39D35315}}
+.router-card{animation:hint-pulse 2s ease-in-out 3}
+
 @media (max-width: 768px) {
   .shell{height:auto;min-height:100vh}
   .body{flex-direction:column}
@@ -221,7 +226,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0d0d0d;height:10
 <div style="background:#fff;border:0.5px solid #e5e5e5;border-radius:12px;padding:.9rem 1rem;text-align:center">
 <div style="font-size:24px;margin-bottom:.4rem">🔍</div>
 <div style="font-size:12px;font-weight:500;color:#111;margin-bottom:.2rem">Personal antiguo</div>
-<div style="font-size:11.5px;color:#888;line-height:1.5">Usa el sidebar para ir directo a la seccion que necesitas consultar rápidamente.</div>
+<div style="font-size:11.5px;color:#888;line-height:1.5">Usa el menú de la izquierda para ir directo a la sección que necesitas sin leer todo el manual.</div>
 </div>
 <div style="background:#fff;border:0.5px solid #e5e5e5;border-radius:12px;padding:.9rem 1rem;text-align:center">
 <div style="font-size:24px;margin-bottom:.4rem">👥</div>
@@ -239,6 +244,14 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0d0d0d;height:10
       </div>
 </div>
 <div style="background:#fff;border:0.5px solid #e5e5e5;border-radius:12px;padding:1.1rem;margin-bottom:.75rem">
+<div style="font-size:13.5px;font-weight:500;color:#111;margin-bottom:.4rem">🃏 Cómo funcionan las tarjetas</div>
+<div style="font-size:12.5px;color:#555;line-height:1.7">
+  Cada sección del manual está organizada en <strong>tarjetas interactivas</strong>. Al entrar a un router o herramienta, verás una fila de tarjetas en la parte superior — cada una representa un tema (luces, puertos, pasos, errores, etc.).<br/><br/>
+  <strong>Haz clic en cualquier tarjeta</strong> para ver su contenido. Solo se muestra una sección a la vez para que sea más fácil enfocarse. La tarjeta activa se resalta en verde.<br/><br/>
+  <span style="display:inline-flex;align-items:center;gap:6px;background:#f9fff9;border:1px solid #39D35344;border-radius:6px;padding:4px 10px;font-size:11.5px;color:#1a7a32">👇 Haz clic en cada tarjeta para ver el detalle</span> — ese mensaje aparece al inicio de cada sección.
+</div>
+</div>
+<div style="background:#fff;border:0.5px solid #e5e5e5;border-radius:12px;padding:1.1rem;margin-bottom:.75rem">
 <div style="font-size:13.5px;font-weight:500;color:#111;margin-bottom:.4rem">💡 Cómo leer los términos técnicos</div>
 <div style="font-size:12.5px;color:#555;line-height:1.7">
         A lo largo del manual encontraras palabras subrayadas en verde con letra cursiva — como está: <span style="color:#1a8a3a;font-style:italic;font-size:11.5px;border-bottom:1.5px dashed #39D35366;cursor:help">failover</span>. Al pasar el mouse encima de esas palabras aparece una ventana con la explicacion en lenguaje simple. No es necesario memorizar los términos — el manual los explica cada vez que aparecen.
@@ -247,12 +260,12 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0d0d0d;height:10
 <div style="background:#39D35310;border:0.5px solid #39D35330;border-radius:12px;padding:1.1rem;margin-bottom:.75rem">
 <div style="font-size:13.5px;font-weight:500;color:#1a7a32;margin-bottom:.4rem">✅ Routers disponibles en este manual</div>
 <div class="inicio-routers" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-top:.5rem">
-<div onclick="goPanel('px')" style="background:#fff;border-radius:8px;padding:.6rem .8rem;font-size:12px;color:#555;cursor:pointer">■ Phantom-X</div>
-<div onclick="goPanel('mc')" style="background:#fff;border-radius:8px;padding:.6rem .8rem;font-size:12px;color:#555;cursor:pointer">■ Phantom + Convertidor</div>
-<div onclick="goPanel('p2')" style="background:#fff;border-radius:8px;padding:.6rem .8rem;font-size:12px;color:#555;cursor:pointer">■ Phantom 2</div>
-<div onclick="goPanel('bit')" style="background:#fff;border-radius:8px;padding:.6rem .8rem;font-size:12px;color:#555;cursor:pointer">■ Phantom 2 BIT</div>
-<div onclick="goPanel('deco')" style="background:#fff;border-radius:8px;padding:.6rem .8rem;font-size:12px;color:#555;cursor:pointer">■ TP-Link Deco M5</div>
-<div onclick="goPanel('vilo')" style="background:#fff;border-radius:8px;padding:.6rem .8rem;font-size:12px;color:#555;cursor:pointer">■ Vilo</div>
+<div onclick="goPanel('px')" class="router-card" style="background:#fff;border-radius:8px;padding:.6rem .8rem;font-size:12px;color:#555;cursor:pointer">■ Phantom-X</div>
+<div onclick="goPanel('mc')" class="router-card" style="background:#fff;border-radius:8px;padding:.6rem .8rem;font-size:12px;color:#555;cursor:pointer">■ Phantom + Convertidor</div>
+<div onclick="goPanel('p2')" class="router-card" style="background:#fff;border-radius:8px;padding:.6rem .8rem;font-size:12px;color:#555;cursor:pointer">■ Phantom 2</div>
+<div onclick="goPanel('bit')" class="router-card" style="background:#fff;border-radius:8px;padding:.6rem .8rem;font-size:12px;color:#555;cursor:pointer">■ Phantom 2 BIT</div>
+<div onclick="goPanel('deco')" class="router-card" style="background:#fff;border-radius:8px;padding:.6rem .8rem;font-size:12px;color:#555;cursor:pointer">■ TP-Link Deco M5</div>
+<div onclick="goPanel('vilo')" class="router-card" style="background:#fff;border-radius:8px;padding:.6rem .8rem;font-size:12px;color:#555;cursor:pointer">■ Vilo</div>
 </div>
 </div>
 <div style="background:#F5C51810;border:0.5px solid #F5C51830;border-radius:12px;padding:1.1rem">
