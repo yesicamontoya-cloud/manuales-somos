@@ -115,7 +115,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0d0d0d;height:10
   .body{flex-direction:column}
   .sidebar{display:flex;flex-direction:row;overflow-x:auto;overflow-y:hidden;white-space:nowrap;padding:.4rem .5rem;gap:4px}
   .sb-group-header{display:none}
-  #group-routers, #group-cpe, #group-ref{max-height:none !important;overflow:visible;display:flex;flex-direction:row;gap:4px;background:transparent}
+  #group-routers, #group-cpe, #group-ref, #group-n2{max-height:none !important;overflow:visible;display:flex;flex-direction:row;gap:4px;background:transparent}
   .sep{display:none}
   .sb-sect{display:none}
   #nav-inicio{margin-bottom:0 !important;border-radius:6px;white-space:nowrap;font-size:11px;padding:6px 10px}
@@ -133,10 +133,10 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0d0d0d;height:10
   .led-grid{grid-template-columns:1fr 1fr}
   
   /* Tarjetas de menu (todos los paneles con cards) */
-  #panel-deco .vcard, #panel-vilo .vcard, #panel-px .vcard, #panel-mc .vcard, #panel-p2 .vcard, #panel-bit .vcard, #panel-p1 .vcard{padding:.65rem .5rem}
-  #panel-deco .vci, #panel-vilo .vci, #panel-px .vci, #panel-mc .vci, #panel-p2 .vci, #panel-bit .vci, #panel-p1 .vci{font-size:20px;margin-bottom:3px}
-  #panel-deco .vct, #panel-vilo .vct, #panel-px .vct, #panel-mc .vct, #panel-p2 .vct, #panel-bit .vct, #panel-p1 .vct{font-size:11px}
-  #panel-deco .vcs, #panel-vilo .vcs, #panel-px .vcs, #panel-mc .vcs, #panel-p2 .vcs, #panel-bit .vcs, #panel-p1 .vcs{font-size:9.5px}
+  #panel-deco .vcard, #panel-vilo .vcard, #panel-px .vcard, #panel-mc .vcard, #panel-p2 .vcard, #panel-bit .vcard, #panel-p1 .vcard, #panel-rf .vcard, #panel-apt .vcard{padding:.65rem .5rem}
+  #panel-deco .vci, #panel-vilo .vci, #panel-px .vci, #panel-mc .vci, #panel-p2 .vci, #panel-bit .vci, #panel-p1 .vci, #panel-rf .vci, #panel-apt .vci{font-size:20px;margin-bottom:3px}
+  #panel-deco .vct, #panel-vilo .vct, #panel-px .vct, #panel-mc .vct, #panel-p2 .vct, #panel-bit .vct, #panel-p1 .vct, #panel-rf .vct, #panel-apt .vct{font-size:11px}
+  #panel-deco .vcs, #panel-vilo .vcs, #panel-px .vcs, #panel-mc .vcs, #panel-p2 .vcs, #panel-bit .vcs, #panel-p1 .vcs, #panel-rf .vcs, #panel-apt .vcs{font-size:9.5px}
   
   /* Glosario en movil */
   #glosario-grid{grid-template-columns:1fr 1fr}
@@ -152,7 +152,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0d0d0d;height:10
 @media (max-width: 480px) {
   .led-grid{grid-template-columns:1fr}
   #glosario-grid{grid-template-columns:1fr}
-  #panel-deco .vcard, #panel-vilo .vcard, #panel-px .vcard, #panel-mc .vcard, #panel-p2 .vcard, #panel-bit .vcard, #panel-p1 .vcard{padding:.5rem .4rem}
+  #panel-deco .vcard, #panel-vilo .vcard, #panel-px .vcard, #panel-mc .vcard, #panel-p2 .vcard, #panel-bit .vcard, #panel-p1 .vcard, #panel-rf .vcard, #panel-apt .vcard{padding:.5rem .4rem}
   .inicio-routers{grid-template-columns:1fr}
 }
 </style>
@@ -190,6 +190,13 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0d0d0d;height:10
 <div class="nav" onclick="go('speed',this)">■ Prueba de velocidad</div>
 <div class="nav" onclick="go('canales',this)">■ Optimizar canales WiFi</div>
 <div class="nav" onclick="go('wificonfig',this)">■ Config WiFi Individualizada</div>
+</div>
+<div class="sep"></div>
+<!-- N2 Avanzado desplegable -->
+<div onclick="toggleGroup('n2')" style="display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem .3rem;font-size:10px;font-weight:500;color:#c0222a;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;user-select:none;background:#161616"><span>🔒 N2 — Avanzado</span><span id="arrow-n2" style="font-size:9px;color:#c0222a;transition:transform .25s;display:inline-block;transform:rotate(-90deg)">▼</span></div>
+<div id="group-n2" style="overflow:hidden;max-height:0px;transition:max-height .3s ease;background:#161616">
+<div class="nav" style="color:#e57373" onclick="go('rf',this)">■ Reset de fábrica</div>
+<div class="nav" style="color:#e57373" onclick="go('apt',this)">■ Actualización de plantilla</div>
 </div>
 <div class="sep"></div>
 <!-- Referencia desplegable -->
@@ -1152,6 +1159,163 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0d0d0d;height:10
 </div>
 </div>
 </div>
+<div class="panel" id="panel-rf">
+<div class="ph"><div class="phb" style="background:#c0222a;color:#fff">N2</div><div class="pt">Reset de fábrica</div><div class="ps">CPE Doctor · Borra configuración local y re-aplica template desde OpenWISP · El hogar quedará sin servicio hasta ~15 minutos</div></div>
+<div class="pb">
+<div class="al al-r" style="margin-bottom:1rem">🔒 <strong>Acceso exclusivo N2.</strong> No ejecutar sin autorización. Avisa siempre al cliente antes de proceder.</div>
+<p style="font-size:12px;color:#888;margin:0 0 8px 0;text-align:center;">👇 Haz clic en cada tarjeta para ver el detalle</p>
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:1rem">
+<div class="vcard" onclick="showSec('rf-cuando',this,'panel-rf')"><div class="vci">🎯</div><div class="vct">Cuándo usarlo</div><div class="vcs">Indicaciones · Requisitos</div></div>
+<div class="vcard" onclick="showSec('rf-pasos',this,'panel-rf')"><div class="vci">▶️</div><div class="vct">Ejecutar reset</div><div class="vcs">Pasos · Confirmación</div></div>
+<div class="vcard" onclick="showSec('rf-estados',this,'panel-rf')"><div class="vci">📊</div><div class="vct">Estados y errores</div><div class="vcs">Progreso · Mensajes</div></div>
+<div class="vcard" onclick="showSec('rf-escenarios',this,'panel-rf')"><div class="vci">⚠️</div><div class="vct">Escenarios</div><div class="vcs">Fallas · Timeouts</div></div>
+</div>
+
+<div class="vsec vopen" id="rf-cuando">
+<div class="vsec-title">🎯 Cuándo usar el reset de fábrica</div>
+<div class="al al-b" style="margin-bottom:.75rem">Usar este procedimiento cuando el cliente presenta <strong>inconsistencias persistentes que no se resuelven con reenvío de configuración</strong>.</div>
+<div class="tec-list" style="margin-bottom:.4rem"><strong>Usar cuando:</strong></div>
+<ul style="margin:.3rem 0 .8rem 1.2rem;font-size:13px;line-height:1.8">
+<li>Ya se reenviaron configuraciones y el problema persiste.</li>
+<li>Existen SSIDs duplicados o huérfanos.</li>
+<li>Un cambio reciente de WiFi no quedó correctamente aplicado.</li>
+<li>Existe sospecha de modificaciones manuales en el equipo.</li>
+<li>El estado del equipo no coincide con la configuración esperada.</li>
+</ul>
+<div class="tec-list" style="margin-bottom:.4rem"><strong>Requisitos técnicos:</strong></div>
+<ul style="margin:.3rem 0 .8rem 1.2rem;font-size:13px;line-height:1.8">
+<li>El equipo principal debe ser OpenWRT registrado en OpenWISP.</li>
+<li>No debe existir un reset activo en el hogar.</li>
+<li>El hogar no debe estar en cooldown (24 h desde el último reset o migración).</li>
+</ul>
+<div class="al al-r">⛔ <strong>Qué NO hacer:</strong> No ejecutar sin avisar al cliente · No usar como primer diagnóstico · No lanzar múltiples resets consecutivos.</div>
+</div>
+
+<div class="vsec" id="rf-pasos">
+<div class="vsec-title">▶️ Cómo ejecutar el reset</div>
+<div class="al al-y" style="margin-bottom:.75rem">⚠️ <span><strong>Antes de continuar:</strong> avisa al cliente que el servicio se interrumpirá hasta ~15 minutos mientras la mesh se reconstruye.</span></div>
+<ol style="margin:.3rem 0 .8rem 1.2rem;font-size:13px;line-height:2">
+<li>Ingresar a <strong>CPE Doctor</strong>.</li>
+<li>Seleccionar la opción <strong>"Reset de fábrica"</strong>.</li>
+<li>Validar con el cliente la pérdida temporal del servicio.</li>
+<li>Seleccionar el <strong>motivo</strong> correspondiente.</li>
+<li>Si aplica "Otro motivo", diligenciar la descripción (obligatorio).</li>
+<li>Revisar la lista de equipos a resetear.</li>
+<li>Presionar <strong>"Confirmar reset"</strong>.</li>
+<li>Monitorear el estado desde la tarjeta de progreso.</li>
+</ol>
+<div class="tec-list" style="margin-bottom:.4rem"><strong>Motivos disponibles:</strong></div>
+<ul style="margin:.3rem 0 .8rem 1.2rem;font-size:13px;line-height:1.8">
+<li><strong>SSIDs huérfanas o duplicadas en LuCI</strong> — redes antiguas persisten tras reenviar configuración.</li>
+<li><strong>Falló cambio reciente vía WifiConfigUpdater</strong> — cambio WiFi no quedó aplicado.</li>
+<li><strong>Sospecha de modificación local sin evidencia directa</strong> — equipo parece modificado manualmente.</li>
+<li><strong>Otro motivo</strong> — cualquier caso no contemplado (descripción obligatoria).</li>
+</ul>
+<div class="al al-b">ℹ️ Orden de ejecución: <strong>secundarios primero, principal al final</strong>. El cooldown es de <strong>24 horas por hogar</strong>.</div>
+</div>
+
+<div class="vsec" id="rf-estados">
+<div class="vsec-title">📊 Estados del progreso y mensajes de error</div>
+<div class="tec-list" style="margin-bottom:.5rem"><strong>Estados del reset por equipo</strong> (actualización cada 5 segundos):</div>
+<div style="display:grid;grid-template-columns:auto 1fr;gap:.4rem .8rem;font-size:13px;margin-bottom:1rem;line-height:1.8">
+<span>⏳ <strong>Pendiente</strong></span><span style="color:#888">El reset aún no inicia.</span>
+<span>🔄 <strong>En curso</strong></span><span style="color:#888">Equipo reiniciándose.</span>
+<span>✅ <strong>Completado</strong></span><span style="color:#888">Reset exitoso.</span>
+<span>❌ <strong>Falló</strong></span><span style="color:#888">Error durante reset — revisar estado por equipo.</span>
+<span>⏱️ <strong>Timeout</strong></span><span style="color:#888">El equipo no respondió — esperar y validar recuperación.</span>
+</div>
+<div class="tec-list" style="margin-bottom:.5rem"><strong>Mensajes de error frecuentes:</strong></div>
+<ul style="margin:.3rem 0 .8rem 1.2rem;font-size:13px;line-height:1.8">
+<li><em>"El equipo principal no soporta reset de fábrica"</em> — equipo no compatible o sin OpenWISP ID. Escalar a N2.</li>
+<li><em>"Ya hay un reset en curso en este hogar"</em> — esperar finalización.</li>
+<li><em>"Cooldown activo. Espera X h..."</em> — esperar el cooldown de 24 h.</li>
+<li><em>"OpenWISP no aceptó el comando de reset"</em> — reintentar o escalar.</li>
+</ul>
+</div>
+
+<div class="vsec" id="rf-escenarios">
+<div class="vsec-title">⚠️ Escenarios y cómo actuar</div>
+<div style="display:flex;flex-direction:column;gap:.6rem;font-size:13px">
+<div class="card" style="border-left:3px solid #39D353"><div class="ct" style="color:#39D353">✅ Reset exitoso</div><div class="cb">Todos los equipos completaron el proceso. El servicio vuelve normalmente tras la reconstrucción de la mesh.</div></div>
+<div class="card" style="border-left:3px solid #f0a500"><div class="ct" style="color:#f0a500">⚠️ Falla en equipo secundario</div><div class="cb">El secundario falla pero el principal continúa. El hogar puede recuperar parcialmente el servicio. El reset del principal <strong>NO se detiene</strong>.</div></div>
+<div class="card" style="border-left:3px solid #c0222a"><div class="ct" style="color:#c0222a">❌ Fallo del equipo principal</div><div class="cb">El gateway principal no completa el reset. El hogar puede quedar sin servicio. <strong>Escalar inmediatamente a #cpedoctor-diagnosticador.</strong></div></div>
+<div class="card" style="border-left:3px solid #888"><div class="ct" style="color:#aaa">⏱️ Timeout</div><div class="cb">El equipo no respondió dentro del tiempo esperado. Puede continuar reiniciándose internamente. Esperar algunos minutos y validar recuperación.</div></div>
+</div>
+<div class="al al-b" style="margin-top:.75rem">📋 <strong>Validación posterior:</strong> esperar ~15 min · confirmar equipos operativos · validar conectividad del cliente · escalar por <strong>#cpedoctor-diagnosticador</strong> si hay errores.</div>
+</div>
+
+</div></div>
+<div class="panel" id="panel-apt">
+<div class="ph"><div class="phb" style="background:#c0222a;color:#fff">N2</div><div class="pt">Actualización de plantilla</div><div class="ps">CPE Doctor · Migra clientes de plantilla legacy a la nueva · Habilita 2.4 GHz modo N para compatibilidad IoT · Servicio interrumpido 5–10 min</div></div>
+<div class="pb">
+<div class="al al-r" style="margin-bottom:1rem">🔒 <strong>Acceso exclusivo N2.</strong> Solo para clientes con plantilla desactualizada. Avisa siempre al cliente antes de proceder.</div>
+<p style="font-size:12px;color:#888;margin:0 0 8px 0;text-align:center;">👇 Haz clic en cada tarjeta para ver el detalle</p>
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:1rem">
+<div class="vcard" onclick="showSec('apt-cuando',this,'panel-apt')"><div class="vci">🎯</div><div class="vct">Cuándo usarlo</div><div class="vcs">Indicaciones · Restricciones</div></div>
+<div class="vcard" onclick="showSec('apt-pasos',this,'panel-apt')"><div class="vci">▶️</div><div class="vct">Ejecutar migración</div><div class="vcs">Pasos · Confirmación</div></div>
+<div class="vcard" onclick="showSec('apt-escenarios',this,'panel-apt')"><div class="vci">⚠️</div><div class="vct">Escenarios</div><div class="vcs">Éxito · Fallos · Escalamiento</div></div>
+<div class="vcard" onclick="showSec('apt-params',this,'panel-apt')"><div class="vci">📋</div><div class="vct">Parámetros clave</div><div class="vcs">Tiempos · Cooldown · Límites</div></div>
+</div>
+
+<div class="vsec vopen" id="apt-cuando">
+<div class="vsec-title">🎯 Cuándo usar la actualización de plantilla</div>
+<div class="al al-b" style="margin-bottom:.75rem">Usar cuando se detecte un cliente con <strong>plantilla desactualizada (legacy)</strong> que requiere compatibilidad con dispositivos IoT o antiguos que usan 2.4 GHz.</div>
+<div class="tec-list" style="margin-bottom:.4rem"><strong>Objetivo:</strong></div>
+<ul style="margin:.3rem 0 .8rem 1.2rem;font-size:13px;line-height:1.8">
+<li>Migrar de plantilla legacy a la nueva plantilla.</li>
+<li>Habilitar la frecuencia <strong>2.4 GHz en modo optimizado (N)</strong> para mejorar compatibilidad con dispositivos IoT y antiguos.</li>
+<li>Afecta a todos los equipos del hogar (principal y secundarios).</li>
+</ul>
+<div class="tec-list" style="margin-bottom:.4rem"><strong>Restricciones:</strong></div>
+<ul style="margin:.3rem 0 .8rem 1.2rem;font-size:13px;line-height:1.8">
+<li>Si el cliente tiene <strong>IP pública</strong>, la acción estará bloqueada — escalar a mesa.</li>
+<li>Solo aplica para clientes con plantilla anterior (legacy).</li>
+<li>No disponible si el equipo principal no es OpenWRT gestionado.</li>
+<li>No puede ejecutarse si el hogar está en cooldown (24 h compartido con reset de fábrica).</li>
+</ul>
+</div>
+
+<div class="vsec" id="apt-pasos">
+<div class="vsec-title">▶️ Cómo ejecutar la migración</div>
+<div class="al al-y" style="margin-bottom:.75rem">⚠️ <span><strong>Antes de continuar:</strong> informar obligatoriamente al cliente que el servicio se interrumpirá entre <strong>5 y 10 minutos</strong> mientras la malla se reconstruye.</span></div>
+<ol style="margin:.3rem 0 .8rem 1.2rem;font-size:13px;line-height:2">
+<li>Verificar que el botón <strong>"Actualizar plantilla"</strong> aparece habilitado en CPE Doctor.</li>
+<li>Avisar al cliente sobre la interrupción temporal del servicio.</li>
+<li>Hacer clic en <strong>"Actualizar plantilla"</strong>.</li>
+<li>Confirmar en la ventana emergente que detalla los equipos a intervenir.</li>
+<li>Monitorear la ventana de progreso <em>"Estado de la migración por equipo"</em>.</li>
+</ol>
+<div class="al al-b">ℹ️ Si se recarga la página, el proceso <strong>sigue en segundo plano</strong> pero el avance dejará de ser visible.</div>
+</div>
+
+<div class="vsec" id="apt-escenarios">
+<div class="vsec-title">⚠️ Escenarios y cómo actuar</div>
+<div style="display:flex;flex-direction:column;gap:.6rem;font-size:13px">
+<div class="card" style="border-left:3px solid #39D353"><div class="ct" style="color:#39D353">✅ Migración exitosa</div><div class="cb">El equipo queda operativo tras la reconstrucción de la malla (5–10 min).</div></div>
+<div class="card" style="border-left:3px solid #f0a500"><div class="ct" style="color:#f0a500">⚠️ Plantilla reasignada pero reinicio falló</div><div class="cb">Si la plantilla ya quedó asignada en OpenWISP pero falló el reinicio (ej: falta de IP de gestión), <strong>no repetir la migración</strong>. Enfocarse en recuperar la gestión del equipo.</div></div>
+<div class="card" style="border-left:3px solid #c0222a"><div class="ct" style="color:#c0222a">❌ Pérdida de gestión tras éxito</div><div class="cb">Si el equipo deja de responder tras migrar, solicitar al cliente un <strong>reset de fábrica físico</strong>.</div></div>
+</div>
+<div class="tec-list" style="margin:.75rem 0 .4rem"><strong>Cuándo escalar:</strong></div>
+<ul style="margin:.3rem 0 .8rem 1.2rem;font-size:13px;line-height:1.8">
+<li>Clientes con IP pública → escalar a mesa.</li>
+<li>Equipos sin IP de gestión → reportar por oncall.</li>
+<li>Errores inesperados o fallos repetidos → canal <strong>#cpedoctor-diagnosticador</strong>.</li>
+</ul>
+</div>
+
+<div class="vsec" id="apt-params">
+<div class="vsec-title">📋 Parámetros clave</div>
+<div style="display:grid;grid-template-columns:auto 1fr;gap:.4rem .8rem;font-size:13px;line-height:1.8;margin-bottom:.75rem">
+<span><strong>Tiempo sin servicio</strong></span><span style="color:#888">5 a 10 minutos aproximadamente.</span>
+<span><strong>Cooldown</strong></span><span style="color:#888">24 horas por hogar (compartido con reset de fábrica).</span>
+<span><strong>Alcance</strong></span><span style="color:#888">Todos los equipos OpenWRT del hogar (principal + secundarios).</span>
+<span><strong>Requisito</strong></span><span style="color:#888">Equipo principal OpenWRT registrado en OpenWISP.</span>
+<span><strong>Bloqueado si</strong></span><span style="color:#888">Cliente con IP pública · Cooldown activo · Migración en curso.</span>
+</div>
+<div class="al al-r">⛔ <strong>No compatible</strong> con equipos que no sean OpenWRT gestionados. La migración no puede forzarse si hay un proceso activo o cooldown.</div>
+</div>
+
+</div></div>
 <div class="panel" id="panel-reinicio">
 <div class="ph"><div class="phb phb-t">CPE Doctor</div><div class="pt">Reinicio remoto del router</div><div class="ps">Reinicia el router del cliente desde la plataforma, sin ir a su casa · El equipo quedara sin servicio por ~2 minutos</div></div>
 <div class="pb">
